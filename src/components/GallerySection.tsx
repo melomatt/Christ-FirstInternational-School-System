@@ -2,60 +2,41 @@
 
 import { useState } from "react";
 import { X } from "lucide-react";
+import Image from "next/image";
 
 export default function GallerySection() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
-  // Placeholder gallery images - replace with actual images later
+  // Gallery images from public folder (11-38)
   const galleryImages = [
-    {
-      id: 1,
-      category: "Students",
-      title: "Students in Classroom",
-      image: "/placeholder-1.jpg",
-    },
-    {
-      id: 2,
-      category: "Events",
-      title: "Annual Sports Day",
-      image: "/placeholder-2.jpg",
-    },
-    {
-      id: 3,
-      category: "Administrators",
-      title: "School Leadership",
-      image: "/placeholder-3.jpg",
-    },
-    {
-      id: 4,
-      category: "Programs",
-      title: "Science Program",
-      image: "/placeholder-4.jpg",
-    },
-    {
-      id: 5,
-      category: "Students",
-      title: "Student Activities",
-      image: "/placeholder-5.jpg",
-    },
-    {
-      id: 6,
-      category: "Programs",
-      title: "Cultural Event",
-      image: "/placeholder-6.jpg",
-    },
-    {
-      id: 7,
-      category: "Facilities",
-      title: "School Campus",
-      image: "/placeholder-7.jpg",
-    },
-    {
-      id: 8,
-      category: "Events",
-      title: "Graduation Ceremony",
-      image: "/placeholder-8.jpg",
-    },
+    { id: 1, category: "Students", title: "Student Moments 1", image: "/11.jpeg" },
+    { id: 2, category: "Events", title: "School Event 1", image: "/12.jpeg" },
+    { id: 3, category: "Administrators", title: "Leadership", image: "/13.jpeg" },
+    { id: 4, category: "Programs", title: "Science Program", image: "/14.jpeg" },
+    { id: 5, category: "Students", title: "Student Activities", image: "/15.jpeg" },
+    { id: 6, category: "Programs", title: "Cultural Event", image: "/16.jpeg" },
+    { id: 7, category: "Facilities", title: "School Campus", image: "/17.jpeg" },
+    { id: 8, category: "Events", title: "Graduation Day", image: "/18.jpeg" },
+    { id: 9, category: "Students", title: "Classroom 1", image: "/19.jpeg" },
+    { id: 10, category: "Facilities", title: "Library", image: "/20.jpeg" },
+    { id: 11, category: "Programs", title: "Sports Program", image: "/21.jpeg" },
+    { id: 12, category: "Events", title: "Assembly", image: "/22.jpeg" },
+    { id: 13, category: "Students", title: "Student Life", image: "/23.jpeg" },
+    { id: 14, category: "Administrators", title: "Staff Meeting", image: "/24.jpeg" },
+    { id: 15, category: "Facilities", title: "Playground", image: "/25.jpeg" },
+    { id: 16, category: "Programs", title: "Arts Program", image: "/26.jpeg" },
+    { id: 17, category: "Events", title: "Parent Meeting", image: "/27.jpeg" },
+    { id: 18, category: "Students", title: "Group Photo", image: "/28.jpeg" },
+    { id: 19, category: "Facilities", title: "Laboratory", image: "/29.jpeg" },
+    { id: 20, category: "Programs", title: "Mathematics Class", image: "/30.jpeg" },
+    { id: 21, category: "Events", title: "Prize Giving", image: "/31.jpeg" },
+    { id: 22, category: "Students", title: "Team Work", image: "/32.jpeg" },
+    { id: 23, category: "Administrators", title: "Administration", image: "/33.jpeg" },
+    { id: 24, category: "Facilities", title: "Cafeteria", image: "/34.jpeg" },
+    { id: 25, category: "Programs", title: "Language Classes", image: "/35.jpeg" },
+    { id: 26, category: "Events", title: "Special Event", image: "/36.jpeg" },
+    { id: 27, category: "Students", title: "Campus Life", image: "/37.jpeg" },
+    { id: 28, category: "Facilities", title: "Main Building", image: "/38.jpeg" },
   ];
 
   const categories = ["All", "Students", "Administrators", "Programs", "Events", "Facilities"];
@@ -105,28 +86,13 @@ export default function GallerySection() {
               onClick={() => setSelectedImage(index)}
               className="group relative overflow-hidden rounded-xl border border-primary/20 cursor-pointer h-64 bg-primary/5"
             >
-              {/* Placeholder - Replace with actual image */}
-              <div className="w-full h-full bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-secondary/30 rounded-full mx-auto mb-3 flex items-center justify-center">
-                    <svg
-                      className="w-8 h-8 text-secondary"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-                  <p className="text-sm font-medium text-muted-foreground">{image.title}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{image.category}</p>
-                </div>
-              </div>
+              {/* Actual Image */}
+              <Image
+                src={image.image}
+                alt={image.title}
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-300"
+              />
 
               {/* Overlay */}
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -159,25 +125,13 @@ export default function GallerySection() {
 
               {/* Image Container */}
               <div className="bg-background rounded-xl overflow-hidden border border-primary/20">
-                <div className="w-full h-96 bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-24 h-24 bg-secondary/30 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <svg
-                        className="w-12 h-12 text-secondary"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
-                    </div>
-                    <p className="text-muted-foreground">Image placeholder</p>
-                  </div>
+                <div className="w-full h-96 relative">
+                  <Image
+                    src={filteredImages[selectedImage]?.image}
+                    alt={filteredImages[selectedImage]?.title}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
 
                 {/* Image Info */}

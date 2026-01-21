@@ -1,19 +1,66 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function HeroSection() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [autoPlay, setAutoPlay] = useState(true);
+
+  const slides = [
+    "/hsection.png",
+    "/1.jpeg",
+    "/2.jpeg",
+    "/3.jpeg",
+    "/4.jpeg",
+    "/5.jpeg",
+    "/6.jpeg",
+    "/7.jpeg",
+    "/8.jpeg",
+    "/9.jpeg",
+    "/10.jpeg",
+  ];
+
+  useEffect(() => {
+    if (!autoPlay) return;
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [autoPlay, slides.length]);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setAutoPlay(false);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setAutoPlay(false);
+  };
+
   return (
-    <section className="relative w-full h-screen min-h-96 overflow-hidden">
-      {/* Background Image with Animation */}
+    <section className="relative w-full h-screen min-h-96 overflow-hidden" id="home">
+      {/* Carousel Container */}
       <div className="absolute inset-0 overflow-hidden">
-        <Image
-          src="/hsection.png"
-          alt="Hero background"
-          fill
-          priority
-          className="object-cover animate-zoom"
-        />
+        {/* Images */}
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentSlide ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <Image
+              src={slide}
+              alt={`Hero slide ${index + 1}`}
+              fill
+              priority={index === 0}
+              className="object-cover"
+            />
+          </div>
+        ))}
       </div>
 
       {/* Overlay gradient for text readability */}
@@ -52,24 +99,46 @@ export default function HeroSection() {
         </div>
       </div>
 
+      {/* Navigation Arrows */}
+      <button
+        onClick={prevSlide}
+        onMouseEnter={() => setAutoPlay(false)}
+        onMouseLeave={() => setAutoPlay(true)}
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
+      >
+        <ChevronLeft size={24} />
+      </button>
+
+      <button
+        onClick={nextSlide}
+        onMouseEnter={() => setAutoPlay(false)}
+        onMouseLeave={() => setAutoPlay(true)}
+        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
+      >
+        <ChevronRight size={24} />
+      </button>
+
+      {/* Slide Indicators */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              setCurrentSlide(index);
+              setAutoPlay(false);
+            }}
+            className={`transition-all duration-300 rounded-full ${
+              index === currentSlide
+                ? "bg-secondary w-8 h-3"
+                : "bg-white/40 hover:bg-white/60 w-3 h-3"
+            }`}
+          />
+        ))}
+      </div>
+
       {/* Animated accent elements */}
       <div className="absolute top-20 right-20 w-40 h-40 bg-secondary/10 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute bottom-40 left-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
-
-      <style jsx>{`
-        @keyframes zoom {
-          0% {
-            transform: scale(1);
-          }
-          100% {
-            transform: scale(1.05);
-          }
-        }
-
-        .animate-zoom {
-          animation: zoom 20s ease-in-out infinite alternate;
-        }
-      `}</style>
     </section>
   );
 }
